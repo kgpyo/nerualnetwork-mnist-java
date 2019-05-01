@@ -8,6 +8,7 @@ public class Weight {
 	public Weight(Neuron prev, Neuron next, int input, int output) {
 		// 표준편차 * nextGuasian() + 평균
 		// Xavier 초기화
+		// TODO 맞는지 나중에 확인
 		double devation = 0.0;
 		if(input != output) {
 			devation = Math.sqrt(2.0/(input+output));

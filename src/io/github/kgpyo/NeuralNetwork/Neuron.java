@@ -51,12 +51,12 @@ public class Neuron implements IActivateFunction{
 		neuron.inputWeight.add(weight);
 	}
 	
-	//net �ڱ� ����
+	//net 계산
 	public void addInput(double value) {
 		this.input += value;
 	}
 	
-	//���� �ʱ�ȭ
+	// 뉴런 초기화
 	public void clear() {
 		this.signal.clear();
 		this.input = 0.0;
@@ -95,7 +95,7 @@ public class Neuron implements IActivateFunction{
 		double sumError = this.sumSignal();
 		for(int i=0;i<inputWeight.size();i++) {
 			Weight weight = inputWeight.get(i);
-			//수정해야 하는 부분
+			// TODO 수정해야 하는 부분
 			//역전파 부분 다시 공부해서 수정할것...
 			weight.prevNeuron.addSignal(grad*sumError*weight.getw());
 			weight.update(lnR*grad*sumError*weight.prevNeuron.y());

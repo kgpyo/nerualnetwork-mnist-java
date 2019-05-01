@@ -15,7 +15,7 @@ public class Main {
 		}
 		
 		nn.setLaerningRate(0.01);
-		nn.setLayers(new int[] {784,100,10});
+		nn.setLayers(new int[] {784,500,400,10});
 		nn.train(100);
 		System.out.println("종료");
 	}
