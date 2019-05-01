@@ -13,7 +13,7 @@ public class Data {
 			else lableVector.add(0.0);
 		}
 	}
-	//wrapper class (Integer : int를 참조 데이터로 변환)
+	//wrapper class (Double : double 媛앹껜)
 	public List<Double> getData() {
 		return this.data;
 	}

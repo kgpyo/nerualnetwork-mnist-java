@@ -5,30 +5,30 @@ import java.io.*;
 public class DataSet {
 	private List<Data> dataSet = new ArrayList<Data>();
 	
-	//µ¥ÀÌÅÍ ÆÄÀÏ ÀĞ±â
+	//ë°ì´í„° íŒŒì¼ ì½ê¸°
 	public void readFile(String filename, int pattern) throws FileNotFoundException, IOException{
 		BufferedReader br = new BufferedReader(new FileReader(filename));
 		String input = null;
 		
-		//±âÁ¸ÀÇ µ¥ÀÌÅÍ¸¦ ¸ğµÎ Á¦°ÅÇÏ°í »õ·Î¿î µ¥ÀÌÅÍ·Î ±³Ã¼
+		//ê¸°ì¡´ì˜ ë°ì´í„°ë¥¼ ëª¨ë‘ ì œê±°í•˜ê³  ìƒˆë¡œìš´ ë°ì´í„°ë¡œ êµì²´
 		dataSet.clear();
 		
-		// [ ],lable Çü½Ä ÀĞ±â
+		// [ ],lable  í˜•ì‹ ì½ê¸°
 		while((input = br.readLine()) != null) {
 			List<Double> data = new ArrayList<Double>();
 			int lable = 0;
 			String[] group = input.split(",");
 			if(group.length <= 1) continue;
 			
-			// [ ~ ] ºÎºĞ ¼ıÀÚ·Î º¯È¯ÇÏ¿© Ã³¸®ÇÏ´Â °úÁ¤
+			// [ ~ ] ë¶€ë¶„ ìˆ«ìë¡œë³€í™˜í•˜ì—¬ ì²˜ë¦¬í•˜ëŠ” ê³ ìã…“ã…‡
 			group[0] = group[0].substring(1,group[0].length()-1);
-			//°ø¹é´ÜÀ§·Î ºĞ¸®
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ¸ï¿½
 			StringTokenizer st = new StringTokenizer(group[0]);
 			while(st.hasMoreTokens()) {
 				data.add(Double.parseDouble(st.nextToken()));
 			}
 			
-			// lable °ª ¼ıÀÚ·Î º¯È¯
+			// lable ê°’ ìˆ«ìë¡œ ë³€í™˜
 			lable = Integer.parseInt(group[1]);
 			dataSet.add(new Data(data,lable,pattern));
 			
@@ -36,7 +36,7 @@ public class DataSet {
 		br.close();
 	}
 	
-	//µ¥ÀÌÅÍ ÃÊ±âÈ­
+	//ë°ì´í„° ì´ˆê¸°í™”
 	public void clearData() {
 		if(dataSet != null) {
 			dataSet.clear();
@@ -51,17 +51,17 @@ public class DataSet {
 		return this.dataSet;
 	}
 	
-	//ÀÎµ¦½º Á¢±Ù
+	//ì¸ë±ìŠ¤ ì ‘ê·¼
 	public Data getData(int i) {
 		return this.dataSet.get(i);
 	}
 	
-	//µ¥ÀÌÅÍ ·¹ÀÌºí °ª
+	//ë°ì´í„° ë ˆì´ë¸” ê°’
 	public int getDataLable(int i) {
 		return this.dataSet.get(i).getLable();
 	}
 	
-	//µ¥ÀÌÅÍ IntegerÀÇ º¤ÅÍ°ª
+	//ë°ì´í„° Integerì˜ ë²¡í„°ê°’
 	public List<Double> getDataVector(int i) {
 		return this.dataSet.get(i).getData();
 	}

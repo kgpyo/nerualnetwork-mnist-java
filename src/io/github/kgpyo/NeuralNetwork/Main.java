@@ -15,8 +15,8 @@ public class Main {
 		}
 		
 		nn.setLaerningRate(0.01);
-		nn.setLayers(new int[] {784,500,10});
-		nn.train();
-		System.out.println("Á¾·á");
+		nn.setLayers(new int[] {784,100,10});
+		nn.train(100);
+		System.out.println("ì¢…ë£Œ");
 	}
 }

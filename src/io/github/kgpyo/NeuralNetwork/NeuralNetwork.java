@@ -26,7 +26,7 @@ public class NeuralNetwork implements IErrorFunction{
 	
 	public void setLayers(int[] layerNumber) {
 		layers = new ArrayList<Layer>();
-		//°èÃş »ı¼º
+		//ê³„ì¸µ ìƒì„±
 		layerSize = layerNumber.length;
 		this.input = 0;
 		this.output = layerSize - 1;
@@ -37,20 +37,20 @@ public class NeuralNetwork implements IErrorFunction{
 				layers.add(new Layer(layerNumber[i]));
 		}
 		
-		//°èÃş ¿¬°á
+		//ê³„ì¸µ ì—°ê²°
 		for(int i=0;i<layerSize-1;i++) {
 			layers.get(i).connect(layers.get(i+1));
 		}
 	}
 	
-	// °¡ÁßÄ¡ Á¦¿Ü ¸ğµç ´º·± ÃÊ±âÈ­
+	// ê°€ì¤‘ì¹˜ ì œì™¸ ëª¨ë“  ë‰´ëŸ° ì´ˆê¸°í™”
 	private void clear() {
 		for(int i=0;i<layerSize;i++) {
 			layers.get(i).clear();
 		}
 	}
 	
-	//ÀüÆÄ
+	//ì „íŒŒ
 	private List<Double> feedFoward(List<Double> data) {
 		layers.get(0).feedForward(data);
 		for(int i=1;i<layerSize-1;i++) {
@@ -59,11 +59,14 @@ public class NeuralNetwork implements IErrorFunction{
 		return layers.get(layerSize-1).y();
 	}
 	
-	//ÇĞ½À
-	public void train() {
+	//í•™ìŠµ
+	public void train(int epoch) {
+		System.out.println("í•™ìŠµ");
+		// ì…ë ¥ë°ì´í„°ê°€ 0, 0, 0, ì¼ë•Œë³´ë‹¤ 0, 5, 1, 0, ìˆœì„œê°€ ì„ì¼ ë•Œê°€ í•™ìŠµë¥ ì´ ë†’ìŒ
+		// ìˆœì°¨ ì…ë ¥(ì•½ 63%),ëœë¤(ì•½ 80%)
 		dataSet.setDataShuffle();
 		this.evaluation(0);
-		for(int r=0;r<100;r++) {
+		for(int r=0;r<epoch;r++) {
 			for(int j=0;j<dataSet.size();j++) {
 				this.clear();
 				this.feedFoward(dataSet.getDataVector(j));
@@ -94,14 +97,14 @@ public class NeuralNetwork implements IErrorFunction{
 	@Override
 	public double mse(double y, double d) {
 		// TODO Auto-generated method stub
-		// Á¦°ö ¿ÀÂ÷.. ÀÌ°Ô ¸Â³ª..
+		// ì œê³± ì˜¤ì°¨.. ì´ê²Œ ë§ë‚˜..
 		return 0.5 * Math.pow(d-y, 2);
 	}
 
 	@Override
 	public double mse(List<Double> y, List<Double> d) {
 		// TODO Auto-generated method stub
-		// ÀÌºÎºĞ ´Ù½Ã °ËÅä
+		// ì´ë¶€ë¶„ ë‹¤ì‹œ ê²€í† 
 		double result = 0;
 		if(y.size() != d.size()) return result;
 		

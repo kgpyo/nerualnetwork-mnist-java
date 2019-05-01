@@ -7,20 +7,18 @@ public class Neuron implements IActivateFunction{
 	private double input = 0;
 	private double output = 0.0;
 	private boolean isInputNeuron = false;
-	private List<Double> signal = new ArrayList<Double>();	// ÇĞ½À½ÅÈ£
-	private int size = 0;
+	private List<Double> signal = new ArrayList<Double>();	// ï¿½Ğ½ï¿½ï¿½ï¿½È£
 	
-	public Neuron(int size) {
-		this(size, false);
+	public Neuron() {
+		this(false);
 	}
 	
-	public Neuron(int size, boolean isInputNeuron) {
-		this.size = size;
+	public Neuron(boolean isInputNeuron) {
 		this.isInputNeuron = isInputNeuron;
 	}
 	
-	/* È°¼ºÈ­ ÇÔ¼ö
-	 * ´Ü±Ø¼º ½Ã±×¸ğÀÌµå, ¼±ÇüÇÔ¼ö
+	/* í™œì„±í™” í•¨ìˆ˜
+	 * ë‹¨ê·¹ì„± ì‹œê·¸ëª¨ì´ë“œ, ì„ í˜•í•¨ìˆ˜
 	 * */
 	@Override
 	public double sigmoid(double x) {
@@ -44,21 +42,21 @@ public class Neuron implements IActivateFunction{
 		return 1.0;
 	}
 	
-	// ´º·±1 - ´º·±2 ¿¬°á (¿ªÀüÆÄ¸¦ À§ÇØ¼­ ¾ç¹æÇâ)
-	// ´º·±1 - weight - ´º·±2
-	// weight.prev = ´º·±1, weight.next = ´º·±2, w
-	public void connect(Neuron neuron) {
-		Weight weight = new Weight(this, neuron, size);
+	// ë‰´ëŸ°1 - ë‰´ëŸ°2 ì—°ê²° (ì—­ì „íŒŒë¥¼ ìœ„í•´ì„œ ì–‘ë°©í–¥)
+	// ë‰´ëŸ°1 - weight - ë‰´ëŸ°2
+	// weight.prev = ë‰´ëŸ°1, weight.next = ë‰´ëŸ°2, w
+	public void connect(Neuron neuron, int here, int output) {
+		Weight weight = new Weight(this, neuron, here, output);
 		outputWeight.add(weight);
 		neuron.inputWeight.add(weight);
 	}
 	
-	//net ÀÚ±Ø ´õÇÔ
+	//net ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void addInput(double value) {
 		this.input += value;
 	}
 	
-	//´º·± ÃÊ±âÈ­
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 	public void clear() {
 		this.signal.clear();
 		this.input = 0.0;
@@ -66,8 +64,8 @@ public class Neuron implements IActivateFunction{
 	}
 	
 	/* Forward
-	 * ÀÔ·ÂÃşÀÇ È°¼ºÈ­ ÇÔ¼ö´Â ¼±ÇüÇÔ¼ö
-	 * Àº´ĞÃş, Ãâ·ÂÃşÀÇ È°¼ºÈ­ ÇÔ¼ö´Â ½Ã±×¸ğÀÌµå ÇÔ¼ö »ç¿ë */
+	 * ì…ë ¥ì¸µì˜ í™œì„±í™” í•¨ìˆ˜ëŠ” ì„ í˜•í•¨ìˆ˜
+	 * ì€ë‹‰ì¸µ, ì¶œë ¥ì¸µì˜ í™œì„±í™” í•¨ìˆ˜ëŠ” ì‹œê·¸ëª¨ì´ë“œ í•¨ìˆ˜ ì‚¬ìš© */
 	public void feedForward() {
 		if(isInputNeuron == true) {
 			this.output = linearAct(this.input);
@@ -81,14 +79,14 @@ public class Neuron implements IActivateFunction{
 		}
 	}
 	
-	//Ãâ·Â °ª ¾ò±â
+	//ì¶œë ¥ê°’ ì–»ê¸°
 	public double y() {
 		return this.sigmoid(this.input);
 	}
 	
-	/* ¿ªÀüÆÄ BackPropagation
+	/* ì—­ì „íŒŒ BackPropagation
 	 * lnR = learningRate
-	 * ÀÔ·ÂÃşÀÇ ¿ÀÂ÷ (Ãâ·Â°ª - ¸ñÇ¥°ª) Àº ·¹ÀÌ¾î¿¡¼­ Àü´Ş, ¿©±â¼­´Â °í·Á X
+	 * ì…ë ¥ì¸µì˜ ì˜¤ì°¨ (ì¶œë ¥ê°’ - ëª©í‘œê°’) ì€ ë ˆì´ì–´ì—ì„œ ì „ë‹¬, ì—¬ê¸°ì„œëŠ” ê³ ë ¤ X
 	 * */	
 	public void backpropagation(final double lnR) {
 		double grad = 0.0;
@@ -97,14 +95,14 @@ public class Neuron implements IActivateFunction{
 		double sumError = this.sumSignal();
 		for(int i=0;i<inputWeight.size();i++) {
 			Weight weight = inputWeight.get(i);
-			//¼öÁ¤ÇØ¾ß ÇÏ´Â ºÎºĞ
-			//¿ªÀüÆÄ ºÎºĞ ´Ù½Ã °øºÎÇØ¼­ ¼öÁ¤ÇÒ°Í...
+			//ìˆ˜ì •í•´ì•¼ í•˜ëŠ” ë¶€ë¶„
+			//ì—­ì „íŒŒ ë¶€ë¶„ ë‹¤ì‹œ ê³µë¶€í•´ì„œ ìˆ˜ì •í• ê²ƒ...
 			weight.prevNeuron.addSignal(grad*sumError*weight.getw());
 			weight.update(lnR*grad*sumError*weight.prevNeuron.y());
 		}
 	}
 	
-	// ´ÙÀ½Ãş(next Layer)À¸·ÎºÎÅÍ Àü´Ş¹ŞÀº ½ÅÈ£ ÇÕ°è
+	// ë‹¤ìŒì¸µ(next Layer)ìœ¼ë¡œë¶€í„° ì „ë‹¬ë°›ì€ ì‹ í˜¸ í•©ê³„
 	public double sumSignal() {
 		double sum = 0;
 		for(int i=0;i<signal.size();i++) {

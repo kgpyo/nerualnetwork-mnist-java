@@ -6,12 +6,12 @@ public class Layer {
 	private int length = 0;
 	private boolean _isInputLayer = false;
 	
-	//layer¿¡ ´º·± »ı¼º
+	//layerì— ë‰´ëŸ° ìƒì„±
 	public Layer(int size, boolean isInputLayer) {
 		this.length = size;
 		this._isInputLayer = isInputLayer;
 		for(int i=0;i<size;i++) {
-			neurons.add(new Neuron(length,(this._isInputLayer)? true : false));
+			neurons.add(new Neuron((this._isInputLayer)? true : false));
 		}		
 	}
 	
@@ -27,25 +27,25 @@ public class Layer {
 		return this._isInputLayer;
 	}
 	
-	// ÇöÀç °èÃş¿¡ ÀÖ´Â ¸ğµç ´º·±ÀÇ °ªµéÀ» ÃÊ±âÈ­ÇÑ´Ù.
+	// í˜„ì¬ ê³„ì¸µì— ìˆëŠ” ëª¨ë“  ë‰´ëŸ°ì˜ ê°’ë“¤ì„ ì´ˆê¸°í™”í•œë‹¤.
 	public void clear() {
 		for(int i=0;i<length;i++) {
 			neurons.get(i).clear();
 		}
 	}
 	
-	// layer°£ÀÇ ¿¬°á, ´º·±°ú ´º·±À» ¿¬°áÇÑ´Ù.
+	//  layerê°„ì˜ ì—°ê²°, ë‰´ëŸ°ê³¼ ë‰´ëŸ°ì„ ì—°ê²°í•œë‹¤.
 	public void connect(Layer layer) {
 		for(int i=0;i<length;i++) {
 			Neuron neuron = neurons.get(i);
 			for(int j=0;j<layer.length;j++) {
-				neuron.connect(layer.neurons.get(j));
+				neuron.connect(layer.neurons.get(j), length, layer.size());
 			}
 		}
 	}
 	
 	/* feedFoward
-	 * ÀÔ·ÂÃşÀÇ °æ¿ì ¿ÜºÎ¿¡¼­ µ¥ÀÌÅÍ¸¦ ÀÔ·Â¹Ş´Â´Ù. 
+	 *  ì…ë ¥ì¸µì˜ ê²½ìš° ì™¸ë¶€ì—ì„œ ë°ì´í„°ë¥¼ ì…ë ¥ë°›ëŠ”ë‹¤. 
 	 * */
 	public void feedForward(List<Double> data) {
 		for(int i=0;i<length;i++) {
@@ -60,7 +60,7 @@ public class Layer {
 		}
 	}
 	
-	// Ãâ·ÂÃşÀÇ °á°ú°ª ¹Ş±â
+	// ì¶œë ¥ì¸µì˜ ê²°ê³¼ê°’ ë°›ê¸°
 	public int predict() {
 		int _predict = 0;
 		double hypothesis = 0.0;
@@ -82,7 +82,7 @@ public class Layer {
 	}
 	
 	/* BackPropagation
-	 * Ãâ·ÂÃşÀÇ °æ¿ì ¿ÜºÎ¿¡¼­ ¿ÀÂ÷¸¦ ÀÔ·Â¹Ş´Â´Ù.
+	 * ì¶œë ¥ì¸µì˜ ê²½ìš° ì™¸ë¶€ì—ì„œ ì˜¤ì°¨ë¥¼ ì…ë ¥ë°›ëŠ”ë‹¤.
 	 * lnr = learning rate
 	 * */
 	public void backPropagation(final double lnR, List<Double> target) {

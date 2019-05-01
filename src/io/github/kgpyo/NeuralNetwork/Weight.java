@@ -5,18 +5,22 @@ public class Weight {
 	private double _w;
 	Neuron nextNeuron;
 	Neuron prevNeuron;
-	public Weight(Neuron prev, Neuron next, int size) {
-		// ÃÊ±âÈ­ ºÎºĞ ¼öÁ¤ ÇÊ¿äÇÒµí
+	public Weight(Neuron prev, Neuron next, int input, int output) {
+		// í‘œì¤€í¸ì°¨ * nextGuasian() + í‰ê· 
+		// Xavier ì´ˆê¸°í™”
+		double devation = 0.0;
+		if(input != output) {
+			devation = Math.sqrt(2.0/(input+output));
+		} else {
+			devation = 1.0/Math.sqrt(input);
+		}
 		Random random = new Random(System.nanoTime());
-		this._w = random.nextGaussian();
-		//this._w = this._w % 1.0;
-		//if(this._w <0) this._w *= -1;
-		this._w /= Math.sqrt(size);
+		this._w = devation * random.nextGaussian();
 		this.nextNeuron = next;
 		this.prevNeuron = prev;
 	}
 	public Weight(Neuron prev, Neuron next) {
-		this(prev, next, 1);	
+		this(prev, next, 1, 1);	
 	}
 	
 	public double getw() {
