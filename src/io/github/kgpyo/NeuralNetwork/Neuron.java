@@ -7,7 +7,7 @@ public class Neuron implements IActivateFunction{
 	private double input = 0;
 	private double output = 0.0;
 	private boolean isInputNeuron = false;
-	private List<Double> signal = new ArrayList<Double>();	// �н���ȣ
+	private List<Double> signal = new ArrayList<Double>();	// 오차 신호
 	
 	public Neuron() {
 		this(false);

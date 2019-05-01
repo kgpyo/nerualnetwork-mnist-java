@@ -20,9 +20,9 @@ public class DataSet {
 			String[] group = input.split(",");
 			if(group.length <= 1) continue;
 			
-			// [ ~ ] 부분 숫자로변환하여 처리하는 고자ㅓㅇ
+			// [ ~ ] 부분 숫자로변환하여 처리하는 과정
 			group[0] = group[0].substring(1,group[0].length()-1);
-			//��������� �и�
+			// 배열 담기
 			StringTokenizer st = new StringTokenizer(group[0]);
 			while(st.hasMoreTokens()) {
 				data.add(Double.parseDouble(st.nextToken()));
