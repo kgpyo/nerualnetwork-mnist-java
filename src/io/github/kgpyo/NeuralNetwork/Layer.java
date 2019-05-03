@@ -39,7 +39,7 @@ public class Layer {
 		for(int i=0;i<length;i++) {
 			Neuron neuron = neurons.get(i);
 			for(int j=0;j<layer.length;j++) {
-				neuron.connect(layer.neurons.get(j), length, layer.size());
+				neuron.connect(layer.neurons.get(j), length);
 			}
 		}
 	}

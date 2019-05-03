@@ -59,13 +59,15 @@ public class NeuralNetwork implements IErrorFunction{
 		return layers.get(layerSize-1).y();
 	}
 	
-	//학습
+	/* 학습
+	 * 오차를 이용하여 개선 
+	 * -> 학습데이터가 잘못되어 있을 수 있고, 학습데이터에만 만춰진 결과를 반영
+	 * -> 학습률을 이용하요 조금만 반영
+	 * */
 	public void train(int epoch) {
-		System.out.println("학습");
-		// 입력데이터가 0, 0, 0, 일때보다 0, 5, 1, 0, 순서가 섞일 때가 학습률이 높음
-		// 순차 입력(약 63%),랜덤(약 80%)
-		dataSet.setDataShuffle();
-		this.evaluation(0);
+		// 순차 입력 했을 때의 인식률 < 랜덤 입력 했을 때의 인식률
+		// 현재 학습데이터는 이미 랜덤으로 섞여 있음
+		//dataSet.setDataShuffle();
 		for(int r=0;r<epoch;r++) {
 			for(int j=0;j<dataSet.size();j++) {
 				this.clear();
@@ -74,10 +76,10 @@ public class NeuralNetwork implements IErrorFunction{
 				for(int k=output-1;k>=1;k--) {
 					layers.get(k).backPropagation(learningRate);
 				}
+				if(j%2000 == 0)System.out.println(j);
 			}
-			if(true)this.evaluation(r+1);
+			this.evaluation(r+1);
 		}
-		this.evaluation(dataSet.size());
 	}
 	
 	private void evaluation(int iter) {
@@ -94,17 +96,14 @@ public class NeuralNetwork implements IErrorFunction{
 		System.out.printf("iter: %d, error: %f,  recognition rate: %f\n", iter, error/length, (double)correct/length);
 	}
 	
+	// 제곱 오차 이용
 	@Override
 	public double mse(double y, double d) {
-		// TODO Auto-generated method stub
-		// 제곱 오차.. 이게 맞나..
-		return 0.5 * Math.pow(d-y, 2);
+		return Math.pow(d-y, 2);
 	}
 
 	@Override
 	public double mse(List<Double> y, List<Double> d) {
-		// TODO Auto-generated method stub
-		// 이부분 다시 검토
 		double result = 0;
 		if(y.size() != d.size()) return result;
 		

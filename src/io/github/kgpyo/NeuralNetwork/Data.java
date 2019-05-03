@@ -9,8 +9,9 @@ public class Data {
 		this.data.addAll(data);
 		this.lable = lable;
 		for(int i=0;i<pattern;i++) {
-			if(i==lable) lableVector.add(1.0);
-			else lableVector.add(0.0);
+			// 시그모이드의 출력은 (0,1) 범위를 가지므로... (반올림 할경우 0, 1이 되지만..)
+			if(i==lable) lableVector.add(0.99);
+			else lableVector.add(0.01);
 		}
 	}
 	//wrapper class (Double : double 객체)

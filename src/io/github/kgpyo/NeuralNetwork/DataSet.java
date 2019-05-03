@@ -25,7 +25,9 @@ public class DataSet {
 			// 배열 담기
 			StringTokenizer st = new StringTokenizer(group[0]);
 			while(st.hasMoreTokens()) {
-				data.add(Double.parseDouble(st.nextToken()));
+				// 0 ~ 255 --> 0.01 ~ 1.0 사이의 값으로 변환
+				Double element = Double.parseDouble(st.nextToken());
+				data.add((element/255.0)*0.99 + 0.01 );
 			}
 			
 			// lable 값 숫자로 변환
@@ -34,6 +36,7 @@ public class DataSet {
 			
 		}
 		br.close();
+		System.out.printf("%s Data Size: %d\n", filename, dataSet.size());
 	}
 	
 	//데이터 초기화
